@@ -140,6 +140,16 @@
             color: white;
         }
         
+        /* 版本内容区域 */
+        .version-content {
+            display: none;
+        }
+        
+        .version-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
         /* 应用列表样式 */
         .app-grid {
             display: grid;
@@ -867,12 +877,12 @@
             const downloadBtns = document.querySelectorAll('.download-btn');
             
             // 点击下载按钮打开模态框
-            downloadBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const name = this.getAttribute('data-name');
-                    const version = this.getAttribute('data-version');
-                    const url = this.getAttribute('data-url');
-                    const password = this.getAttribute('data-password');
+            document.addEventListener('click', function(e) {
+                if (e.target && e.target.classList.contains('download-btn')) {
+                    const name = e.target.getAttribute('data-name');
+                    const version = e.target.getAttribute('data-version');
+                    const url = e.target.getAttribute('data-url');
+                    const password = e.target.getAttribute('data-password');
                     
                     document.getElementById('modal-name').textContent = name;
                     document.getElementById('modal-version').textContent = version;
@@ -880,7 +890,7 @@
                     document.getElementById('modal-link').setAttribute('href', url);
                     
                     modal.style.display = 'flex';
-                });
+                }
             });
             
             // 点击关闭按钮关闭模态框
