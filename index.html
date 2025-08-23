@@ -2,324 +2,223 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>幻方MC下载站</title>
-    <script>
-        // 浏览器版本检测
-        function detectBrowser() {
-            const userAgent = navigator.userAgent;
-            let isOldBrowser = false;
-            
-            // iOS检测
-            if (/iP(ad|hone|od)/i.test(userAgent)) {
-                const match = userAgent.match(/OS (\d+)_(\d+)_?(\d+)?/);
-                if (match && match.length >= 2) {
-                    const version = parseInt(match[1], 10);
-                    if (version < 10) {
-                        isOldBrowser = true;
-                    }
-                }
-            }
-            
-            // Android检测
-            if (/Android/i.test(userAgent)) {
-                const match = userAgent.match(/Chrome\/(\d+)\./);
-                if (match && match.length >= 2) {
-                    const chromeVersion = parseInt(match[1], 10);
-                    if (chromeVersion < 95) {
-                        isOldBrowser = true;
-                    }
-                }
-            }
-            
-            // 如果是旧浏览器，重定向到旧版页面
-            if (isOldBrowser) {
-                window.location.href = 'indexold.html';
-            }
-        }
-        
-        // 页面加载时检测浏览器
-        window.onload = detectBrowser;
-    </script>
     <style>
-        /* 现代化样式 - 仅支持较新浏览器 */
+        /* 全局样式 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.6;
-            color: #333;
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            background-attachment: fixed;
-            padding: 20px;
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333;
             min-height: 100vh;
+            padding-bottom: 80px;
+            position: relative;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .container {
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* 头部样式 */
-        header {
-            background: linear-gradient(to right, #4a86e8, #3a76d4);
-            padding: 25px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: #fff;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .logo-text {
-            font-size: 36px;
-            font-weight: bold;
-            color: #4a86e8;
-        }
-        
-        header h1 {
-            color: white;
-            font-size: 28px;
-            margin: 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        /* 搜索框 */
-        .search-box {
             padding: 20px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
         }
         
-        .search-container {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto;
+        header {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         
-        .search-input {
-            width: 100%;
-            padding: 12px 50px 12px 20px;
-            border: 2px solid #ced4da;
-            border-radius: 30px;
-            font-size: 16px;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s;
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
         }
         
-        .search-input:focus {
-            border-color: #4a86e8;
-            box-shadow: 0 2px 15px rgba(74, 134, 232, 0.3);
-            outline: none;
-        }
-        
-        .search-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-            font-size: 20px;
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
         }
         
         /* 导航样式 */
-        .main-nav {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .nav-tabs {
-            list-style: none;
+        .platform-tabs {
             display: flex;
-            width: 100%;
+            justify-content: center;
+            margin: 20px 0 30px;
+            flex-wrap: wrap;
         }
         
-        .nav-tabs li {
-            flex: 1;
-            text-align: center;
-            border-right: 1px solid #e9ecef;
+        .tab-btn {
+            padding: 12px 25px;
+            margin: 0 10px 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
         
-        .nav-tabs li:last-child {
-            border-right: none;
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
         }
         
-        .nav-tabs a {
-            display: block;
-            padding: 15px 0;
-            color: #495057;
-            text-decoration: none;
+        .tab-btn.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a2a6c;
             font-weight: bold;
-            background-color: #e9ecef;
-            transition: all 0.3s;
-        }
-        
-        .nav-tabs a.active {
-            background-color: #fff;
-            color: #4a86e8;
-            border-bottom: 4px solid #4a86e8;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         /* 内容区域样式 */
         .content-section {
-            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
             padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: none;
         }
         
         .content-section.active {
             display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .section-title {
-            font-size: 24px;
-            color: #4a86e8;
-            padding: 15px 0;
+            font-size: 1.8rem;
+            color: #1a2a6c;
             margin-bottom: 20px;
-            border-bottom: 2px solid #e9ecef;
-            position: relative;
-            padding-left: 20px;
-            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #fdbb2d;
         }
         
-        .section-title:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 15px;
-            height: 30px;
-            width: 6px;
-            background-color: #4a86e8;
-            border-radius: 3px;
+        /* 版本选项卡 */
+        .version-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         
-        /* 应用卡片样式 */
-        .apps-grid {
+        .version-btn {
+            padding: 8px 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .version-btn:hover {
+            background: #dee2e6;
+        }
+        
+        .version-btn.active {
+            background: #1a2a6c;
+            color: white;
+        }
+        
+        /* 应用列表样式 */
+        .app-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+            gap: 20px;
         }
         
         .app-card {
-            background-color: #fff;
-            border: 1px solid #e9ecef;
+            background: white;
             border-radius: 12px;
-            padding: 20px;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .app-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         
-        .app-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(to bottom right, #4a86e8, #3a76d4);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .app-header {
+            background: #1a2a6c;
             color: white;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 15px;
+            padding: 15px;
         }
         
-        .app-info {
-            flex: 1;
-        }
-        
-        .app-title {
-            font-weight: bold;
-            font-size: 20px;
-            color: #212529;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
+        .app-name {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
         }
         
         .app-version {
-            background-color: #4a86e8;
-            color: white;
-            font-size: 14px;
-            padding: 4px 10px;
-            border-radius: 12px;
-            display: inline-block;
-            margin-left: 10px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .app-body {
+            padding: 15px;
         }
         
         .app-desc {
-            font-size: 16px;
             color: #6c757d;
-            margin: 12px 0;
-            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
         
-        .app-tags {
-            margin-top: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+        .app-features {
+            margin-bottom: 15px;
         }
         
-        .app-tag {
+        .feature-badge {
             display: inline-block;
-            background-color: #f0f7ff;
-            color: #4a86e8;
-            font-size: 14px;
-            padding: 6px 15px;
-            border-radius: 20px;
-            border: 1px solid #d0e3ff;
+            background: #e9ecef;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
         }
         
         .download-btn {
             display: block;
-            background: linear-gradient(to right, #4a86e8, #3a76d4);
+            width: 100%;
+            padding: 10px;
+            background: #1a2a6c;
             color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-top: 20px;
-            text-align: center;
-            cursor: pointer;
             border: none;
+            border-radius: 6px;
+            cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s;
+            transition: background 0.3s ease;
         }
         
         .download-btn:hover {
-            background: linear-gradient(to right, #3a76d4, #2a66c4);
-            box-shadow: 0 4px 10px rgba(58, 118, 212, 0.4);
+            background: #2a3a9c;
         }
         
-        /* 下载弹窗样式 */
+        /* 模态框样式 */
         .modal {
             display: none;
             position: fixed;
@@ -327,148 +226,143 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 1000;
+            justify-content: center;
+            align-items: center;
             backdrop-filter: blur(5px);
         }
         
         .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 30px;
-            width: 350px;
+            background: white;
             border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: #1a2a6c;
         }
         
         .modal-title {
-            font-size: 22px;
+            font-size: 1.5rem;
+            color: #1a2a6c;
             margin-bottom: 20px;
-            color: #212529;
-            text-align: center;
+        }
+        
+        .download-info {
+            margin-bottom: 25px;
+        }
+        
+        .info-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-label {
             font-weight: bold;
+            min-width: 80px;
+            color: #495057;
         }
         
-        .download-link {
+        .info-value {
+            color: #1a2a6c;
+            word-break: break-all;
+        }
+        
+        .modal-download-btn {
             display: block;
-            background: linear-gradient(to right, #27ae60, #219653);
-            color: white;
-            text-align: center;
-            padding: 15px;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
-            transition: all 0.3s;
-        }
-        
-        .download-link:hover {
-            background: linear-gradient(to right, #219653, #1b8447);
-            transform: translateY(-2px);
-        }
-        
-        .password-info {
-            background-color: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            padding: 15px;
-            font-size: 16px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .password-info strong {
-            color: #e74c3c;
-            font-size: 18px;
-        }
-        
-        .close-btn {
-            display: block;
-            background-color: #e0e0e0;
-            color: #333;
-            text-align: center;
+            width: 100%;
             padding: 12px;
-            text-decoration: none;
+            background: #1a2a6c;
+            color: white;
+            border: none;
             border-radius: 8px;
-            margin-top: 20px;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
+            transition: background 0.3s ease;
         }
         
-        .close-btn:hover {
-            background-color: #d0d0d0;
+        .modal-download-btn:hover {
+            background: #2a3a9c;
         }
         
-        /* 底部样式 */
+        /* 页脚样式 */
         footer {
-            background-color: #f8f8f8;
-            padding: 25px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(26, 42, 108, 0.9);
+            color: white;
+            padding: 15px 0;
             text-align: center;
-            border-top: 1px solid #ddd;
-            font-size: 14px;
-            color: #777;
+            backdrop-filter: blur(5px);
+            z-index: 100;
         }
         
-        .footer-links {
-            margin-top: 15px;
+        .footer-tabs {
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
         }
         
-        .footer-links a {
-            color: #4a86e8;
-            text-decoration: none;
-            transition: all 0.3s;
+        .footer-tab {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .footer-links a:hover {
-            color: #3a76d4;
-            text-decoration: underline;
+        .footer-tab.active {
+            background: rgba(255, 255, 255, 0.2);
         }
         
-        /* 响应式调整 */
+        .footer-tab:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            .apps-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            h1 {
+                font-size: 2.2rem;
             }
             
-            .section-title {
-                font-size: 20px;
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 1rem;
             }
             
-            .app-title {
-                font-size: 18px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .apps-grid {
+            .app-grid {
                 grid-template-columns: 1fr;
             }
             
-            .nav-tabs {
-                flex-direction: column;
+            .footer-tabs {
+                flex-wrap: wrap;
             }
             
-            .nav-tabs li {
-                border-right: none;
-                border-bottom: 1px solid #e9ecef;
-            }
-            
-            .section-title {
-                font-size: 18px;
-            }
-            
-            .app-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
+            .footer-tab {
+                margin-bottom: 5px;
             }
         }
     </style>
@@ -476,356 +370,563 @@
 <body>
     <div class="container">
         <header>
-            <div class="logo">
-                <div class="logo-text">MC</div>
-            </div>
             <h1>幻方MC下载站</h1>
+            <p class="subtitle">提供MCPE各版本客户端下载资源</p>
         </header>
         
-        <div class="search-box">
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="搜索应用..." id="searchInput" onkeyup="filterApps()">
-                <div class="search-icon">🔍</div>
-            </div>
+        <div class="platform-tabs">
+            <button class="tab-btn active" data-tab="android">安卓版本</button>
+            <button class="tab-btn" data-tab="ios">iOS版本</button>
         </div>
         
-        <nav class="main-nav">
-            <ul class="nav-tabs">
-                <li><a href="#" onclick="showSection('ios')">iOS 下载</a></li>
-                <li><a href="#" class="active" onclick="showSection('android')">安卓 下载</a></li>
-            </ul>
-        </nav>
-        
-        <!-- iOS下载区域 -->
-        <div id="ios-section" class="content-section">
-            <div class="section-title">iOS 版本下载</div>
+        <!-- 安卓内容区域 -->
+        <div class="content-section active" id="android-section">
+            <h2 class="section-title">安卓版本下载</h2>
             
-            <div class="apps-grid">
-                <div class="app-card">
-                    <div class="app-icon">M</div>
-                    <div class="app-info">
-                        <div class="app-title">mc0143.ipa <span class="app-version">iOS通用</span></div>
-                        <div class="app-desc">适用于iOS设备的0.14.3原版客户端</div>
-                        <div class="app-tags">
-                            <span class="app-tag">iOS 6+</span>
-                            <span class="app-tag">越狱</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('mc0143.ipa', 'https://wwap.lanzoum.com/i2Hqd32opa3i', 'd4ah')">下载</button>
-                    </div>
+            <div class="version-tabs">
+                <button class="version-btn active" data-version="0.14.1">0.14.1</button>
+                <button class="version-btn" data-version="0.14.2">0.14.2</button>
+                <button class="version-btn" data-version="0.14.3">0.14.3</button>
+            </div>
+            
+            <!-- 0.14.1版本应用 -->
+            <div class="version-content active" data-version="0.14.1">
+                <div class="app-grid">
+                    <!-- 应用卡片将通过JavaScript动态生成 -->
                 </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">S</div>
-                    <div class="app-info">
-                        <div class="app-title">start客户端 ios6+越狱共存版 <span class="app-version">1.5</span></div>
-                        <div class="app-desc">专为iOS老设备优化的Start客户端</div>
-                        <div class="app-tags">
-                            <span class="app-tag">iOS 6+</span>
-                            <span class="app-tag">越狱</span>
-                            <span class="app-tag">共存</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('start客户端 ios6＋越狱共存版.ipa', 'https://wwap.lanzoum.com/ivet632op8wf', 'cjdc')">下载</button>
-                    </div>
+            </div>
+            
+            <!-- 0.14.2版本应用 -->
+            <div class="version-content" data-version="0.14.2">
+                <div class="app-grid">
+                    <!-- 应用卡片将通过JavaScript动态生成 -->
                 </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">S</div>
-                    <div class="app-info">
-                        <div class="app-title">start 客户端v1.5 <span class="app-version">1.5</span></div>
-                        <div class="app-desc">经典Start客户端1.5版，支持iOS设备</div>
-                        <div class="app-tags">
-                            <span class="app-tag">iOS 7+</span>
-                            <span class="app-tag">优化</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('start 客户端v 1.5.ipa', 'https://wwap.lanzoum.com/igFx932op6bc', 'gghe')">下载</button>
-                    </div>
-                </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">S</div>
-                    <div class="app-info">
-                        <div class="app-title">Start1.9lite <span class="app-version">1.9</span></div>
-                        <div class="app-desc">轻量版Start客户端，占用资源少</div>
-                        <div class="app-tags">
-                            <span class="app-tag">iOS 6+</span>
-                            <span class="app-tag">轻量</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('Start1.9lite.ipa', 'https://wwap.lanzoum.com/i1tes32op3tc', '1hwj')">下载</button>
-                    </div>
-                </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">G</div>
-                    <div class="app-info">
-                        <div class="app-title">0.14.1超赞光影 <span class="app-version">0.14.1</span></div>
-                        <div class="app-desc">增强版光影效果，提升游戏视觉体验</div>
-                        <div class="app-tags">
-                            <span class="app-tag">iOS 6+</span>
-                            <span class="app-tag">光影</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('0.14.1超赞光影.ipa', 'https://wwap.lanzoum.com/iXemz32op1ta', 'fbs3')">下载</button>
-                    </div>
+            </div>
+            
+            <!-- 0.14.3版本应用 -->
+            <div class="version-content" data-version="0.14.3">
+                <div class="app-grid">
+                    <!-- 应用卡片将通过JavaScript动态生成 -->
                 </div>
             </div>
         </div>
         
-        <!-- 安卓下载区域 -->
-        <div id="android-section" class="content-section active">
-            <!-- 0.14.1 版本 -->
-            <div class="section-title">安卓 0.14.1 版本</div>
+        <!-- iOS内容区域 -->
+        <div class="content-section" id="ios-section">
+            <h2 class="section-title">iOS版本下载</h2>
             
-            <div class="apps-grid">
-                <div class="app-card">
-                    <div class="app-icon">M</div>
-                    <div class="app-info">
-                        <div class="app-title">Mydream Client <span class="app-version">1.21.2</span></div>
-                        <div class="app-desc">增强版客户端，支持多种特性</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓4.0+</span>
-                            <span class="app-tag">兼容</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('Mydream Client_1.21.2.apk', 'https://wwap.lanzoum.com/igwj332oohja', '672v')">下载</button>
-                    </div>
-                </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">A</div>
-                    <div class="app-info">
-                        <div class="app-title">生存斧材质光影共存版 <span class="app-version">2.2</span></div>
-                        <div class="app-desc">支持材质和光影的生存斧版本</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓4.0+</span>
-                            <span class="app-tag">材质</span>
-                            <span class="app-tag">光影</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('生存斧材质光影共存2.2--0.14.1.apk', 'https://wwap.lanzoum.com/iGi8e32oogdi', 'dfsg')">下载</button>
-                    </div>
-                </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">O</div>
-                    <div class="app-info">
-                        <div class="app-title">0.14.1原版客户端 <span class="app-version">0.14.1</span></div>
-                        <div class="app-desc">纯净原版体验，无任何修改</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓4.0+</span>
-                            <span class="app-tag">原版</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('0.14.1原版客户端.apk', 'https://wwap.lanzoum.com/iu8IJ32ooe5i', '3g19')">下载</button>
-                    </div>
-                </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">A</div>
-                    <div class="app-info">
-                        <div class="app-title">安卓14专用流量端 <span class="app-version">2024最新</span></div>
-                        <div class="app-desc">专为安卓14系统优化的流量版本</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓14+</span>
-                            <span class="app-tag">流量</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('[安卓14专用-2024最新]0.14.1流量端.apk', 'https://wwap.lanzoum.com/i1XHc32oodkh', 'ch25')">下载</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 0.14.2 版本 -->
-            <div class="section-title">安卓 0.14.2 版本</div>
-            
-            <div class="apps-grid">
-                <div class="app-card">
-                    <div class="app-icon">N</div>
-                    <div class="app-info">
-                        <div class="app-title">0142受伤无抖动共存版 <span class="app-version">0.14.2</span></div>
-                        <div class="app-desc">去除受伤抖动效果，与原版共存</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓4.0+</span>
-                            <span class="app-tag">优化</span>
-                            <span class="app-tag">共存</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('0142受伤无抖动共存.apk', 'https://wwap.lanzoum.com/iIdE632oojgj', '58e5')">下载</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 0.14.3 版本 -->
-            <div class="section-title">安卓 0.14.3 版本</div>
-            
-            <div class="apps-grid">
-                <div class="app-card">
-                    <div class="app-icon">K</div>
-                    <div class="app-info">
-                        <div class="app-title">✘✘KLF✘✘ <span class="app-version">0.14.3</span></div>
-                        <div class="app-desc">特殊修改版，增强游戏体验</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓4.0+</span>
-                            <span class="app-tag">优化</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('✘✘KLF✘✘--0.14.3.apk', 'https://wwap.lanzoum.com/iOCwp32ooued', '8cxh')">下载</button>
-                    </div>
-                </div>
-                
-                <!-- START客户端系列 -->
-                <div class="app-card">
-                    <div class="app-icon">S</div>
-                    <div class="app-info">
-                        <div class="app-title">START客户端 v1.3 <span class="app-version">1.3</span></div>
-                        <div class="app-desc">经典START客户端1.3版，支持安卓设备</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓2.3+</span>
-                            <span class="app-tag">经典</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('START客户端_v1.3.apk', 'https://example.com/start1.3.apk', 'v1.3')">下载</button>
-                    </div>
-                </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">S</div>
-                    <div class="app-info">
-                        <div class="app-title">START客户端 v1.4 <span class="app-version">1.4</span></div>
-                        <div class="app-desc">经典START客户端1.4版，支持安卓设备</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓2.3+</span>
-                            <span class="app-tag">经典</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('START客户端_v1.4.apk', 'https://example.com/start1.4.apk', 'v1.4')">下载</button>
-                    </div>
-                </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">S</div>
-                    <div class="app-info">
-                        <div class="app-title">START客户端 v1.5 <span class="app-version">1.5</span></div>
-                        <div class="app-desc">经典START客户端1.5版，支持安卓设备</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓2.3+</span>
-                            <span class="app-tag">经典</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('START客户端_v1.5.apk', 'https://example.com/start1.5.apk', 'v1.5')">下载</button>
-                    </div>
-                </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">S</div>
-                    <div class="app-info">
-                        <div class="app-title">START客户端 v1.6 <span class="app-version">1.6</span></div>
-                        <div class="app-desc">经典START客户端1.6版，支持安卓设备</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓2.3+</span>
-                            <span class="app-tag">经典</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('START客户端_v1.6.apk', 'https://example.com/start1.6.apk', 'v1.6')">下载</button>
-                    </div>
-                </div>
-                
-                <div class="app-card">
-                    <div class="app-icon">L</div>
-                    <div class="app-info">
-                        <div class="app-title">0.14.3低版本兼容包 <span class="app-version">纯原版</span></div>
-                        <div class="app-desc">专为安卓2.3-4.2设计的兼容版本</div>
-                        <div class="app-tags">
-                            <span class="app-tag">安卓2.3-4.2</span>
-                            <span class="app-tag">低版本</span>
-                            <span class="app-tag">兼容</span>
-                        </div>
-                        <button class="download-btn" onclick="showDownload('[安卓2.3-4.2专用]0.14.3低版本兼容_纯原版包.apk', 'https://wwap.lanzoum.com/igUDa32oom4f', '3ci7')">下载</button>
-                    </div>
-                </div>
+            <div class="app-grid">
+                <!-- iOS应用卡片将通过JavaScript动态生成 -->
             </div>
         </div>
-        
-        <!-- 下载弹窗 -->
-        <div id="downloadModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-title" id="modalTitle">应用名称</div>
-                <a href="#" id="downloadLink" class="download-link">下载应用</a>
-                <div class="password-info">
-                    下载密码: <strong id="passwordText">xxxx</strong>
-                </div>
-                <div class="close-btn" onclick="closeDownload()">关闭</div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>幻方MC下载站 © 2024 | 为老设备优化的MCPE资源站</p>
-            <div class="footer-links">
-                <a href="https://blog.999845.xyz/">关于我们</a>
-                <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=PCosdpzSek-PzkZCeKu_a8pvgs8FpMJz&authKey=oywIJZJYcNWiC%2Bji6QnCtOOQbfMUxIV4ckFHmDbP8ZA7zzO6hslS7fc4X8Fg2z85&noverify=0&group_code=928479455">帮助中心</a>
-                <a href="https://mc.999845.xyz/">联系我们</a>
-                <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=PCosdpzSek-PzkZCeKu_a8pvgs8FpMJz&authKey=oywIJZJYcNWiC%2Bji6QnCtOOQbfMUxIV4ckFHmDbP8ZA7zzO6hslS7fc4X8Fg2z85&noverify=0&group_code=928479455">加入我们</a>
-                <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=PCosdpzSek-PzkZCeKu_a8pvgs8FpMJz&authKey=oywIJZJYcNWiC%2Bji6QnCtOOQbfMUxIV4ckFHmDbP8ZA7zzO6hslS7fc4X8Fg2z85&noverify=0&group_code=928479455">使用条款</a>
-            </div>
-        </footer>
     </div>
     
+    <!-- 下载模态框 -->
+    <div class="modal" id="downloadModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">下载信息</h2>
+            <div class="download-info">
+                <div class="info-item">
+                    <span class="info-label">名称:</span>
+                    <span class="info-value" id="modal-name"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">版本:</span>
+                    <span class="info-value" id="modal-version"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">密码:</span>
+                    <span class="info-value" id="modal-password"></span>
+                </div>
+            </div>
+            <a id="modal-link" href="#" target="_blank">
+                <button class="modal-download-btn">立即下载</button>
+            </a>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-tabs">
+            <div class="footer-tab active">安卓版本</div>
+            <div class="footer-tab">iOS版本</div>
+        </div>
+    </footer>
+
     <script>
-        // 显示指定区域
-        function showSection(sectionId) {
-            // 隐藏所有内容区域
-            document.getElementById('ios-section').style.display = 'none';
-            document.getElementById('android-section').style.display = 'none';
+        // 应用数据
+        const appData = {
+            android: {
+                "0.14.1": [
+                    {
+                        name: "Mydream Client",
+                        version: "1.21.2",
+                        desc: "梦想客户端，提供独特的游戏体验",
+                        features: ["光影支持", "材质包", "多版本兼容"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/igwj332oohja",
+                        password: "672v"
+                    },
+                    {
+                        name: "生存斧材质光影共存",
+                        version: "2.2",
+                        desc: "生存斧材质与光影效果共存版本",
+                        features: ["材质光影", "生存优化", "性能提升"],
+                        requirements: "Android 4.2及以上",
+                        url: "https://wwap.lanzoum.com/iGi8e32oogdi",
+                        password: "dfsg"
+                    },
+                    {
+                        name: "生存斧Faithful x32材质光影版",
+                        version: "1.0",
+                        desc: "Faithful x32材质配合光影效果",
+                        features: ["高清材质", "光影效果", "Faithful x32"],
+                        requirements: "Android 4.4及以上",
+                        url: "https://wwap.lanzoum.com/i9Q9332oofod",
+                        password: "85ru"
+                    },
+                    {
+                        name: "受伤无抖动",
+                        version: "0.14.1",
+                        desc: "移除受伤时的屏幕抖动效果",
+                        features: ["无抖动", "原版优化", "体验改善"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/idIWH32ooesb",
+                        password: "esws"
+                    },
+                    {
+                        name: "原版客户端",
+                        version: "0.14.1",
+                        desc: "官方原版客户端，无任何修改",
+                        features: ["原版体验", "稳定运行", "无修改"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iu8IJ32ooe5i",
+                        password: "3g19"
+                    },
+                    {
+                        name: "流量端",
+                        version: "0.14.1",
+                        desc: "2024最新版，支持流量连接",
+                        features: ["流量连接", "安卓14专用", "最新优化"],
+                        requirements: "Android 14专用",
+                        url: "https://wwap.lanzoum.com/i1XHc32oodkh",
+                        password: "ch25"
+                    }
+                ],
+                "0.14.2": [
+                    {
+                        name: "受伤无抖动共存",
+                        version: "0.14.2",
+                        desc: "移除受伤时的屏幕抖动效果，支持共存",
+                        features: ["无抖动", "共存版", "体验改善"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iIdE632oojgj",
+                        password: "58e5"
+                    }
+                ],
+                "0.14.3": [
+                    {
+                        name: "KLF改版",
+                        version: "0.14.3",
+                        desc: "KLF制作的0.14.3改版客户端",
+                        features: ["功能增强", "性能优化", "界面改进"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iOCwp32ooued",
+                        password: "8cxh"
+                    },
+                    {
+                        name: "114514改版",
+                        version: "0.14.3",
+                        desc: "来自114514开朗网友的0.14改版",
+                        features: ["功能增强", "稳定性提升", "自定义内容"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iXohX32ootoh",
+                        password: "botz"
+                    },
+                    {
+                        name: "GrayClient",
+                        version: "2u03",
+                        desc: "GrayClient灰色客户端最新版",
+                        features: ["灰色主题", "功能优化", "自定义设置"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iMdyi32oos1i",
+                        password: "59er"
+                    },
+                    {
+                        name: "五边形纹理包",
+                        version: "0.14.3",
+                        desc: "Minecraft PE五边形纹理包",
+                        features: ["五边形纹理", "高清材质", "视觉升级"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/im6Nc32ooqch",
+                        password: "1uvq"
+                    },
+                    {
+                        name: "FPS显示+流量",
+                        version: "0.14.3",
+                        desc: "显示FPS并支持流量连接",
+                        features: ["FPS显示", "流量支持", "性能监控"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iWugN32oooad",
+                        password: "i1it"
+                    },
+                    {
+                        name: "流量服务器支持",
+                        version: "0.14.3",
+                        desc: "支持使用流量进入服务器，Lun修改版",
+                        features: ["流量支持", "服务器优化", "Lun修改"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iUV8O32oonre",
+                        password: "96h6"
+                    },
+                    {
+                        name: "宽字修复共存版",
+                        version: "0.14.3",
+                        desc: "原版优化，修复宽字体显示问题",
+                        features: ["宽字修复", "共存版", "原版优化"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iamHh32oon6d",
+                        password: "14yw"
+                    },
+                    {
+                        name: "低版本兼容包",
+                        version: "0.14.3",
+                        desc: "安卓2.3-4.2专用纯原版包",
+                        features: ["低版本兼容", "纯原版", "Android 2.3-4.2"],
+                        requirements: "Android 2.3-4.2专用",
+                        url: "https://wwap.lanzoum.com/igUDa32oom4f",
+                        password: "3ci7"
+                    },
+                    {
+                        name: "我的世界PE Start",
+                        version: "1.1",
+                        desc: "Start客户端早期版本",
+                        features: ["Start客户端", "功能增强", "早期版本"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iD3k232oo18d",
+                        password: "f1g2"
+                    },
+                    {
+                        name: "START最终加密版",
+                        version: "V1.6",
+                        desc: "START客户端最终加密版本",
+                        features: ["加密版", "最终版", "功能完整"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iGrKE32onybi",
+                        password: "i0ko"
+                    },
+                    {
+                        name: "START客户端",
+                        version: "1.3",
+                        desc: "START客户端1.3版本",
+                        features: ["Start客户端", "功能增强", "1.3版本"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/i1WKL32onw1g",
+                        password: "8d3a"
+                    },
+                    {
+                        name: "START客户端最终版",
+                        version: "1.5",
+                        desc: "START客户端1.5最终版本",
+                        features: ["最终版", "功能完整", "性能优化"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/iVlel32onu6j",
+                        password: "ftdo"
+                    },
+                    {
+                        name: "START窄屏版",
+                        version: "V1.4",
+                        desc: "适用于较窄屏幕的START客户端",
+                        features: ["窄屏适配", "V1.4", "界面优化"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/ig3pm32onsja",
+                        password: "50k2"
+                    },
+                    {
+                        name: "START宽屏版",
+                        version: "V1.4",
+                        desc: "适用于宽屏幕的START客户端",
+                        features: ["宽屏适配", "V1.4", "界面优化"],
+                        requirements: "Android 4.0及以上",
+                        url: "https://wwap.lanzoum.com/irmAi32onpwf",
+                        password: "bxby"
+                    }
+                ]
+            },
+            ios: [
+                {
+                    name: "MCPE原版",
+                    version: "0.14.3",
+                    desc: "iOS原版MCPE客户端",
+                    features: ["原版体验", "iOS兼容", "稳定运行"],
+                    requirements: "iOS 7.0及以上",
+                    url: "https://wwap.lanzoum.com/i2Hqd32opa3i",
+                    password: "d4ah"
+                },
+                {
+                    name: "START越狱共存版",
+                    version: "iOS6+",
+                    desc: "START客户端iOS6+越狱共存版",
+                    features: ["越狱版", "iOS6+", "共存版"],
+                    requirements: "iOS 6及以上越狱设备",
+                    url: "https://wwap.lanzoum.com/ivet632op8wf",
+                    password: "cjdc"
+                },
+                {
+                    name: "START客户端",
+                    version: "v1.5",
+                    desc: "START客户端iOS v1.5版本",
+                    features: ["Start客户端", "功能增强", "v1.5"],
+                    requirements: "iOS 7.0及以上",
+                    url: "https://wwap.lanzoum.com/igFx932op6bc",
+                    password: "gghe"
+                },
+                {
+                    name: "Start Lite版",
+                    version: "1.9",
+                    desc: "Start客户端精简Lite版本",
+                    features: ["Lite版", "轻量级", "性能优化"],
+                    requirements: "iOS 7.0及以上",
+                    url: "https://wwap.lanzoum.com/i1tes32op3tc",
+                    password: "1hwj"
+                },
+                {
+                    name: "超赞光影",
+                    version: "0.14.1",
+                    desc: "0.14.1超赞光影效果版",
+                    features: ["光影效果", "视觉增强", "iOS专属"],
+                    requirements: "iOS 7.0及以上",
+                    url: "https://wwap.lanzoum.com/iXemz32op1ta",
+                    password: "fbs3"
+                }
+            ]
+        };
+
+        // 浏览器检测与跳转
+        function checkBrowser() {
+            const userAgent = navigator.userAgent;
             
-            // 移除所有导航激活状态
-            var navLinks = document.querySelectorAll('.nav-tabs a');
-            for (var i = 0; i < navLinks.length; i++) {
-                navLinks[i].className = '';
+            // 检测Trident内核（IE）
+            if (/MSIE|Trident/.test(userAgent)) {
+                const ieVersion = userAgent.match(/(MSIE |rv:)(\d+(\.\d+)?)/);
+                if (ieVersion && parseInt(ieVersion[2]) < 10) {
+                    window.location.href = "indexold.html";
+                    return;
+                }
             }
             
-            // 显示选中的内容区域
-            document.getElementById(sectionId + '-section').style.display = 'block';
-            
-            // 设置导航激活状态
-            var activeLink = document.querySelector('.nav-tabs a[onclick*="' + sectionId + '"]');
-            if (activeLink) {
-                activeLink.className = 'active';
-            }
-        }
-        
-        // 显示下载弹窗
-        function showDownload(appName, url, password) {
-            document.getElementById('modalTitle').innerText = appName;
-            
-            if (url !== '#') {
-                document.getElementById('downloadLink').href = url;
-                document.getElementById('downloadLink').innerText = '下载 ' + appName;
-                document.getElementById('downloadLink').style.display = 'block';
-            } else {
-                document.getElementById('downloadLink').style.display = 'none';
-            }
-            
-            document.getElementById('passwordText').innerText = password;
-            document.getElementById('downloadModal').style.display = 'block';
-        }
-        
-        // 关闭下载弹窗
-        function closeDownload() {
-            document.getElementById('downloadModal').style.display = 'none';
-        }
-        
-        // 点击模态框外部关闭
-        document.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                closeDownload();
-            }
-        }
-        
-        // 搜索功能实现
-        function filterApps() {
-            var searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            var appCards = document.querySelectorAll('.app-card');
-            
-            for (var i = 0; i < appCards.length; i++) {
-                var card = appCards[i];
-                var title = card.querySelector('.app-title').textContent.toLowerCase();
-                var desc = card.querySelector('.app-desc').textContent.toLowerCase();
+            // 检测旧版WebKit（iOS6和安卓4）
+            if (/OS 6_|Android 4\.0|Android 4\.1|Android 4\.2|Android 4\.3/.test(userAgent)) {
+                // 进一步确认是旧设备
+                if (/iPhone|iPad|iPod/.test(userAgent) && /OS [0-6]_/.test(userAgent)) {
+                    window.location.href = "indexold.html";
+                    return;
+                }
                 
-                if (title.indexOf(searchTerm) > -1 || desc.indexOf(searchTerm) > -1) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
+                if (/Android 4\.[0-3]/.test(userAgent)) {
+                    window.location.href = "indexold.html";
+                    return;
+                }
+            }
+            
+            // 检测旧版Firefox
+            if (/Firefox\/\d+/.test(userAgent)) {
+                const ffVersion = parseInt(userAgent.match(/Firefox\/(\d+)/)[1]);
+                if (ffVersion < 30) {
+                    window.location.href = "indexold.html";
+                    return;
                 }
             }
         }
+
+        // 初始化页面
+        function initPage() {
+            // 渲染安卓应用
+            renderAndroidApps();
+            
+            // 渲染iOS应用
+            renderIOSApps();
+            
+            // 设置选项卡事件
+            setupTabs();
+            
+            // 设置版本切换事件
+            setupVersionTabs();
+            
+            // 设置模态框事件
+            setupModal();
+            
+            // 设置页脚选项卡事件
+            setupFooterTabs();
+        }
+
+        // 渲染安卓应用
+        function renderAndroidApps() {
+            for (const version in appData.android) {
+                const versionGrid = document.querySelector(`.version-content[data-version="${version}"] .app-grid`);
+                if (!versionGrid) continue;
+                
+                appData.android[version].forEach(app => {
+                    const appCard = createAppCard(app);
+                    versionGrid.appendChild(appCard);
+                });
+            }
+        }
+
+        // 渲染iOS应用
+        function renderIOSApps() {
+            const iosGrid = document.querySelector('#ios-section .app-grid');
+            appData.ios.forEach(app => {
+                const appCard = createAppCard(app);
+                iosGrid.appendChild(appCard);
+            });
+        }
+
+        // 创建应用卡片
+        function createAppCard(app) {
+            const card = document.createElement('div');
+            card.className = 'app-card';
+            
+            let featuresHTML = '';
+            app.features.forEach(feature => {
+                featuresHTML += `<span class="feature-badge">${feature}</span>`;
+            });
+            
+            card.innerHTML = `
+                <div class="app-header">
+                    <h3 class="app-name">${app.name}</h3>
+                    <p class="app-version">版本: ${app.version}</p>
+                </div>
+                <div class="app-body">
+                    <p class="app-desc">${app.desc}</p>
+                    <div class="app-features">
+                        ${featuresHTML}
+                    </div>
+                    <p><strong>适配要求:</strong> ${app.requirements}</p>
+                    <button class="download-btn" data-name="${app.name}" data-version="${app.version}" 
+                            data-url="${app.url}" data-password="${app.password}">
+                        下载应用
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // 设置选项卡事件
+        function setupTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 更新主选项卡
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // 显示对应内容区域
+                    const tabName = btn.getAttribute('data-tab');
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(`${tabName}-section`).classList.add('active');
+                    
+                    // 更新页脚选项卡
+                    const footerTabs = document.querySelectorAll('.footer-tab');
+                    footerTabs.forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    footerTabs[tabName === 'android' ? 0 : 1].classList.add('active');
+                });
+            });
+        }
+
+        // 设置版本切换事件
+        function setupVersionTabs() {
+            const versionBtns = document.querySelectorAll('.version-btn');
+            
+            versionBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 更新版本选项卡
+                    versionBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // 显示对应版本内容
+                    const version = btn.getAttribute('data-version');
+                    document.querySelectorAll('.version-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.querySelector(`.version-content[data-version="${version}"]`).classList.add('active');
+                });
+            });
+        }
+
+        // 设置模态框事件
+        function setupModal() {
+            const modal = document.getElementById('downloadModal');
+            const closeBtn = document.querySelector('.close-modal');
+            const downloadBtns = document.querySelectorAll('.download-btn');
+            
+            // 点击下载按钮打开模态框
+            downloadBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const name = this.getAttribute('data-name');
+                    const version = this.getAttribute('data-version');
+                    const url = this.getAttribute('data-url');
+                    const password = this.getAttribute('data-password');
+                    
+                    document.getElementById('modal-name').textContent = name;
+                    document.getElementById('modal-version').textContent = version;
+                    document.getElementById('modal-password').textContent = password;
+                    document.getElementById('modal-link').setAttribute('href', url);
+                    
+                    modal.style.display = 'flex';
+                });
+            });
+            
+            // 点击关闭按钮关闭模态框
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // 设置页脚选项卡事件
+        function setupFooterTabs() {
+            const footerTabs = document.querySelectorAll('.footer-tab');
+            
+            footerTabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    // 更新页脚选项卡
+                    footerTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // 更新主选项卡和内容
+                    const tabBtns = document.querySelectorAll('.tab-btn');
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabBtns[index].classList.add('active');
+                    
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(`${index === 0 ? 'android' : 'ios'}-section`).classList.add('active');
+                    
+                    // 滚动到顶部
+                    window.scrollTo(0, 0);
+                });
+            });
+        }
+
+        // 页面加载时执行
+        document.addEventListener('DOMContentLoaded', function() {
+            checkBrowser();
+            initPage();
+        });
     </script>
 </body>
 </html>
