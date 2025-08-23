@@ -4,6 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>幻方MC下载站</title>
+    <script>
+        // 增强版浏览器检测与跳转 - 放在最前面执行
+        (function() {
+            // 更全面的旧设备检测
+            function shouldRedirectToOldVersion() {
+                const userAgent = navigator.userAgent;
+                
+                // 检测Trident内核（IE）
+                if (/MSIE|Trident/.test(userAgent)) {
+                    const ieVersion = userAgent.match(/(MSIE |rv:)(\d+(\.\d+)?)/);
+                    if (ieVersion && parseInt(ieVersion[2]) < 10) {
+                        return true;
+                    }
+                }
+                
+                // 检测iOS旧版本
+                if (/iP(hone|od|ad)/.test(userAgent)) {
+                    const osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(userAgent);
+                    if (osVersion && parseInt(osVersion[1]) < 9) {
+                        return true;
+                    }
+                }
+                
+                // 检测Android旧版本
+                if (/Android/.test(userAgent)) {
+                    const androidVersion = /Android (\d+)(?:\.(\d+))?/.exec(userAgent);
+                    if (androidVersion && parseInt(androidVersion[1]) < 5) {
+                        return true;
+                    }
+                }
+                
+                // 检测旧版WebKit引擎
+                if (/AppleWebKit/.test(userAgent)) {
+                    const webkitVersion = /AppleWebKit\/(\d+)/.exec(userAgent);
+                    if (webkitVersion && parseInt(webkitVersion[1]) < 600) {
+                        return true;
+                    }
+                }
+                
+                // 检测旧版Firefox
+                if (/Firefox/.test(userAgent)) {
+                    const firefoxVersion = /Firefox\/(\d+)/.exec(userAgent);
+                    if (firefoxVersion && parseInt(firefoxVersion[1]) < 50) {
+                        return true;
+                    }
+                }
+                
+                // 检测旧版Chrome
+                if (/Chrome/.test(userAgent)) {
+                    const chromeVersion = /Chrome\/(\d+)/.exec(userAgent);
+                    if (chromeVersion && parseInt(chromeVersion[1]) < 50) {
+                        return true;
+                    }
+                }
+                
+                return false;
+            }
+            
+            // 如果是旧设备，立即跳转
+            if (shouldRedirectToOldVersion()) {
+                window.location.href = "indexold.html";
+            }
+        })();
+    </script>
     <style>
         /* 全局样式 */
         * {
@@ -712,43 +776,6 @@
             ]
         };
 
-        // 浏览器检测与跳转
-        function checkBrowser() {
-            const userAgent = navigator.userAgent;
-            
-            // 检测Trident内核（IE）
-            if (/MSIE|Trident/.test(userAgent)) {
-                const ieVersion = userAgent.match(/(MSIE |rv:)(\d+(\.\d+)?)/);
-                if (ieVersion && parseInt(ieVersion[2]) < 10) {
-                    window.location.href = "indexold.html";
-                    return;
-                }
-            }
-            
-            // 检测旧版WebKit（iOS6和安卓4）
-            if (/OS 6_|Android 4\.0|Android 4\.1|Android 4\.2|Android 4\.3/.test(userAgent)) {
-                // 进一步确认是旧设备
-                if (/iPhone|iPad|iPod/.test(userAgent) && /OS [0-6]_/.test(userAgent)) {
-                    window.location.href = "indexold.html";
-                    return;
-                }
-                
-                if (/Android 4\.[0-3]/.test(userAgent)) {
-                    window.location.href = "indexold.html";
-                    return;
-                }
-            }
-            
-            // 检测旧版Firefox
-            if (/Firefox\/\d+/.test(userAgent)) {
-                const ffVersion = parseInt(userAgent.match(/Firefox\/(\d+)/)[1]);
-                if (ffVersion < 30) {
-                    window.location.href = "indexold.html";
-                    return;
-                }
-            }
-        }
-
         // 初始化页面
         function initPage() {
             // 渲染安卓应用
@@ -874,7 +901,6 @@
         function setupModal() {
             const modal = document.getElementById('downloadModal');
             const closeBtn = document.querySelector('.close-modal');
-            const downloadBtns = document.querySelectorAll('.download-btn');
             
             // 点击下载按钮打开模态框
             document.addEventListener('click', function(e) {
@@ -934,7 +960,6 @@
 
         // 页面加载时执行
         document.addEventListener('DOMContentLoaded', function() {
-            checkBrowser();
             initPage();
         });
     </script>
